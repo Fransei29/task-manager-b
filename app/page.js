@@ -1,95 +1,153 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// app/page.js
+"use client";
+
+import { useSession, signIn, signOut } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import TaskForm from '../components/TaskForm';
+import TaskList from '../components/TaskList';
+import AuthForm from '../components/AuthForm';
+import styles from '../app/page.module.css'; // Import CSS module
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { data: session, status } = useSession(); // Manage session
+  const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+  useEffect(() => {
+    if (status === 'authenticated') {
+      axios.get('/api/tasks', {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`
+        }
+      })
+        .then((response) => setTasks(response.data))
+        .catch((error) => console.error('Error fetching tasks:', error));
+    }
+  }, [status, session]);
+
+  const handleAuth = async (e) => {
+    e.preventDefault();
+    if (isRegistering) {
+      try {
+        await axios.post('/api/auth/register', { email, password });
+        alert('User registered successfully! Now you can sign in.');
+
+        signIn('credentials', { email, password, redirect: false }).then(({ error }) => {
+          if (error) {
+            alert('Sign in failed. Please check your credentials.');
+          }
+        });
+
+        setIsRegistering(false);
+      } catch (error) {
+        alert('Registration failed: ' + error.response.data.message);
+      }
+    } else {
+      try {
+        const result = await signIn('credentials', { email, password, redirect: false });
+
+        if (result.error) {
+          alert('Sign in failed. Please check your credentials.');
+        }
+      } catch (error) {
+        console.error('Error signing in:', error);
+        alert('Error signing in.');
+      }
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (status === 'authenticated') {
+      try {
+        if (editingTask) {
+          const response = await axios.put('/api/tasks', {
+            id: editingTask.id,
+            newTitle: title,
+            newDescription: description,
+          }, {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`
+            }
+          });
+          setTasks(tasks.map(task => task.id === editingTask.id ? response.data : task));
+          setEditingTask(null);
+        } else {
+          const response = await axios.post('/api/tasks', { title, description }, {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`
+            }
+          });
+          setTasks([...tasks, response.data]);
+        }
+
+        setTitle('');
+        setDescription('');
+      } catch (error) {
+        console.error('Error creating or updating task:', error);
+        alert('An error occurred while creating or updating the task.');
+      }
+    } else {
+      alert('You must be signed in to create or update a task.');
+    }
+  };
+
+  const handleDelete = async (taskId) => {
+    if (status === 'authenticated') {
+      try {
+        await axios.delete('/api/tasks', {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`
+          },
+          data: { taskId }
+        });
+        setTasks(tasks.filter(task => task.id !== taskId));
+      } catch (error) {
+        console.error('Error deleting task:', error);
+        alert('An error occurred while deleting the task.');
+      }
+    }
+  };
+
+  const toggleAuthMode = () => {
+    setIsRegistering(!isRegistering);
+  };
+
+  return (
+    <div className={styles.container}>
+      {status === 'authenticated' ? (
+        <>
+          <h1 className={styles.title}>Manage your tasks!</h1>
+          <TaskForm
+            title={title}
+            setTitle={setTitle}
+            description={description}
+            setDescription={setDescription}
+            handleSubmit={handleSubmit}
+            editingTask={editingTask}
           />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <TaskList tasks={tasks} handleEdit={setEditingTask} handleDelete={handleDelete} />
+          <button onClick={() => signOut()} className={styles.buttonSignOut}>Sign Out</button>
+        </>
+      ) : (
+        <AuthForm
+          email={email}
+          password={password}
+          setEmail={setEmail}
+          setPassword={setPassword}
+          handleAuth={handleAuth}
+          isRegistering={isRegistering}
+          toggleAuthMode={toggleAuthMode}
+        />
+      )}
+      
+
     </div>
   );
 }
