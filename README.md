@@ -31,7 +31,8 @@ This application meets all the specified requirements:
 ## Technologies Used
 
 - Next.js
-- React.
+- React
+- Axios
 - CSS Modules
 - PostgreSQL
 - Sequelize
