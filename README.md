@@ -82,21 +82,13 @@ Before you begin, ensure you have the following installed:
 
     Open your browser and go to http://localhost:3000 to use the Task Manager app.
 
-Project Structure
-components/: Contains React components like AuthForm, TaskList, and TaskForm.
-pages/: Contains the Next.js pages, including the main entry point (index.js).
-styles/: Contains global styles (globals.css) and CSS modules for component-specific styling.
-lib/: Contains utility functions and helper code.
-models/: Contains Sequelize models for interacting with the PostgreSQL database.
-api/: Contains the API routes for handling authentication and task management.
-Usage
-Sign Up: Create a new account using your email and password.
-Sign In: Log in to the application with your registered credentials.
-Task Management: Add new tasks, edit existing ones, and delete tasks you no longer need.
-Sign Out: Log out from your account securely.
-Contributing
-Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure that your code adheres to the existing code style and includes relevant tests.
+     **Usage**
+    Sign Up: Create a new account using your email and password.
+    Sign In: Log in to the application with your registered credentials.
+    Task Management: Add new tasks, edit existing ones, and delete tasks you no longer need.
+    Sign Out: Log out from your account securely.
+    
 
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+    **License**
+    This project is licensed under the MIT License. See the LICENSE file for more details.
 
