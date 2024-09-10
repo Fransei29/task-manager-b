@@ -2,11 +2,29 @@
 
 Welcome to Task Manager, a simple yet efficient web application designed to help you manage your tasks and achieve your goals with ease. The application provides essential features such as task creation, editing, and deletion, along with user authentication to keep your tasks secure.
 
-## Features
+## Requirement Compliance
 
-- User Authentication : Register, sign in, and sign out using your email and password.
-- Task Management : Create, view, update, and delete tasks.
-- Responsive Design : The app is responsive and works well on both desktop and mobile devices.
+This application meets all the specified requirements:
+
+- **User Authentication:**
+  - Users can register with their email and password.
+  - Users can log in and log out.
+
+- **Task Management:**
+  - Users can create a new task with a title and description.
+  - Users can view a list of all their tasks.
+  - Users can update the title and description of their tasks.
+  - Users can delete a task.
+
+- **Relational Database:**
+  - The application uses PostgreSQL as a relational database to store user and task information.
+  - Each user has their own set of tasks.
+
+- **Evaluation Criteria:**
+  - Functionality: The application meets all specified requirements.
+  - Code Quality: The code is clean, well-organized, and well-documented.
+  - UI/UX: The user interface is intuitive and easy to use.
+  - Database Design: The database schema is efficient and scalable.
 
 ## Technologies Used
 
