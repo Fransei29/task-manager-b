@@ -117,12 +117,17 @@ Before you begin, ensure you have the following installed:
     Open your browser and go to http://localhost:3000 to use the Task Manager app.
 
      **Usage**
+   
     Sign Up: Create a new account using your email and password.
+   
     Sign In: Log in to the application with your registered credentials.
+   
     Task Management: Add new tasks, edit existing ones, and delete tasks you no longer need.
+
     Sign Out: Log out from your account securely.
     
 
     **License**
+   
     This project is licensed under the MIT License. See the LICENSE file for more details.
 
