@@ -2,6 +2,8 @@
 
 Welcome to Task Manager, a simple yet efficient web application designed to help you manage your tasks and achieve your goals with ease. The application provides essential features such as task creation, editing, and deletion, along with user authentication to keep your tasks secure.
 
+Task Manager uses a robust relational database (PostgreSQL) to store user and task information, ensuring data consistency and reliability. Each user has their own set of tasks, which are securely managed through authentication and authorization mechanisms. The database design is optimized for scalability and performance, allowing you to handle multiple tasks and users efficiently.
+
 ## Requirement Compliance
 
 This application meets all the specified requirements:
