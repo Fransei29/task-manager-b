@@ -71,7 +71,9 @@ Before you begin, ensure you have the following installed:
     Create a .env.local file in the root of the project and add the following environment variables:
 
     DATABASE_URL=postgres://user:password@localhost:5432/taskmanager
+   
     NEXTAUTH_URL=http://localhost:3000
+   
     NEXTAUTH_SECRET=your-jwt-secret
 
     (Replace user, password, and taskmanager with your PostgreSQL credentials.)
