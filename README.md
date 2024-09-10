@@ -22,12 +22,6 @@ This application meets all the specified requirements:
   - The application uses PostgreSQL as a relational database to store user and task information.
   - Each user has their own set of tasks.
 
-- **Evaluation Criteria:**
-  - Functionality: The application meets all specified requirements.
-  - Code Quality: The code is clean, well-organized, and well-documented.
-  - UI/UX: The user interface is intuitive and easy to use.
-  - Database Design: The database schema is efficient and scalable.
-
 ## Technologies Used
 
 - Next.js
