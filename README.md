@@ -77,19 +77,14 @@ Before you begin, ensure you have the following installed:
    
      # Database Configuration
    
-    DB_USERNAME=your-db-username
-   
-    DB_PASSWORD=your-db-password
-   
-    DB_NAME=taskmanager
-   
-    DB_HOST=localhost
-   
-    DB_PORT=5432
-   
-    DATABASE_URL=postgres://user:password@localhost:5432/taskmanager
-
-    (Replace user, password, and taskmanager with your PostgreSQL credentials.)
+      DB_USERNAME=your-db-username     
+      DB_PASSWORD=your-db-password     
+      DB_NAME=taskmanager     
+      DB_HOST=localhost     
+      DB_PORT=5432     
+      DATABASE_URL=postgres://user:password@localhost:5432/taskmanager
+  
+      (Replace user, password, and taskmanager with your PostgreSQL credentials.)
 
 
 4. **Set up the database with Docker:**
