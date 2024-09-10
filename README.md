@@ -21,7 +21,7 @@ This application meets all the specified requirements:
 - **Relational Database:**
   - The application uses PostgreSQL as a relational database to store user and task information.
   - Each user has their own set of tasks.
-  - Easily view and manage the PostgreSQL database using ## DBeaver.
+  - Easily view and manage the PostgreSQL database using DBeaver.
 
 ## Technologies Used
 
