@@ -44,10 +44,11 @@ Before you begin, ensure you have the following installed:
     You can do this in PowerShell, CMD, or any terminal by running:
 
     node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+    
     This command will generate a random secret key that you can copy and paste into the .env.local file.
 
 
-4. **Set up environment variables:**
+5. **Set up environment variables:**
 
     Create a .env.local file in the root of the project and add the following environment variables:
 
