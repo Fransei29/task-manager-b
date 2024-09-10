@@ -102,11 +102,15 @@ Before you begin, ensure you have the following installed:
 
     This command will create and start a PostgreSQL database container using the configuration in docker-compose.yml.
 
-5. **Run the migrations to set up the database schema:**
+5. **Optional Step: Running Migrations**
+   
+    If you make changes to the database schema or encounter any issues, you may need to run migrations to set up or update the database schema:
 
     npx sequelize-cli db:migrate
+   
+    Note: This step is usually not necessary if the database has already been set up correctly.
 
-6. **Running the Application**
+7. **Running the Application**
     
     Start the development server:
 
@@ -114,11 +118,11 @@ Before you begin, ensure you have the following installed:
 
     The application will start on http://localhost:3000.
 
-7. **Access the application:**
+8. **Access the application:**
 
     Open your browser and go to http://localhost:3000 to use the Task Manager app.
 
-     **Usage**
+**Usage**
    
     Sign Up: Create a new account using your email and password.
    
@@ -128,8 +132,7 @@ Before you begin, ensure you have the following installed:
 
     Sign Out: Log out from your account securely.
     
-
-    **License**
+**License**
    
     This project is licensed under the MIT License. See the LICENSE file for more details.
 
