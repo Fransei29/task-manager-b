@@ -51,14 +51,15 @@ Before you begin, ensure you have the following installed:
 1. **Clone the repository:**
 
     git clone https://github.com/your-username/task-manager.git
+
     cd task-manager
 
-2. **Install the dependencies:**
+3. **Install the dependencies:**
 
     npm install
 
 
-3.  **Generate NEXTAUTH_SECRET:**
+4.  **Generate NEXTAUTH_SECRET:**
     You can do this in PowerShell, CMD, or any terminal by running:
 
     node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
