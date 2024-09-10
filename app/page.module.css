@@ -81,21 +81,21 @@
 /* Styles for Buttons */
 /* Styles for Task Action Buttons (Edit and Delete) */
 .editButton, .deleteButton {
-  background-color: #000; 
-  color: #fff;
-  padding: 5px 13px;
-  margin-right: 8px;
+  background-color: rgba(196, 159, 226, 0.9); 
+  color: black;
+  padding: 4px 9px;
+  margin-right: 6px;
   margin-top: 3px;
   margin-bottom: 3px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .editButton:hover, .deleteButton:hover {
   cursor:pointer;
-  background-color: #530587; 
+  background-color: rgba(174, 117, 221, 0.9); 
 }
 
 /* Styles for Authentication Buttons */
@@ -173,8 +173,8 @@
 }
 
 .input:focus, .textarea:focus {
-  border-color: #007BFF; 
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.8); 
+  border-color: #c397e6; 
+  box-shadow: 0 0 5px #ccb2e2; 
   outline: none; 
 }
 
