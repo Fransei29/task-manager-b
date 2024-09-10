@@ -1,7 +1,7 @@
-// components/TaskForm.js
 import React from 'react';
-import styles from '../app/page.module.css'; // Import CSS module
+import styles from '../app/page.module.css'; 
 
+// TaskForm component for creating or editing a task
 const TaskForm = ({ title, setTitle, description, setDescription, handleSubmit, editingTask }) => {
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -19,7 +19,7 @@ const TaskForm = ({ title, setTitle, description, setDescription, handleSubmit, 
         placeholder="Description"
         className={styles.textarea}
       />
-      <button type="submit" className={styles.button}>
+      <button type="submit" className={styles.button}>        {/* Submit button to add or update a task */}
         {editingTask ? 'Update Task' : 'Add Task'}
       </button>
     </form>
