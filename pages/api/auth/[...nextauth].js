@@ -13,32 +13,33 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        // Find the user in the database
         const user = await User.findOne({ where: { email: credentials.email } });
 
+        // If user exists, compare the provided password with the stored hash
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
           return user; // Return the authenticated user
         }
 
-        return null; // Authentication failed
+        // Return null if authentication fails
+        return null;
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET, // Use NEXTAUTH_SECRET for JWT signing
   session: {
     strategy: 'jwt', // Use JSON Web Tokens (JWT) for session handling
-  },
-  jwt: {
-    secret: process.env.JWT_SECRET || 'your-secure-random-key', // Replace with a strong key
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id; // Add user ID to the JWT token
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id;
+        session.user.id = token.id; // Attach user ID to the session
       }
       return session;
     },
