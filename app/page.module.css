@@ -1,253 +1,85 @@
-/* Global Styles for Containers and General Layout */
+/* Styles for Welcome page (page.js) */
 .container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 !important;
+  max-width: 1122px;
+  flex-direction: column;
+  overflow: hidden;
   width: 100%;
   padding: 5% 25%;
   margin: 0 auto;
-  background-color: #fff; 
-  color: #000; 
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Styles for Authentication Container */
-.authContainer {
-  display: flex;
-  width: 100%;
-  height: auto;
-  padding: 9%;
-  flex-direction: column;
-  align-items:center;
-  justify-content: center;
-  text-align: left;
-  animation: fadeIn 1s ease-in-out; 
-}
-
-.titleA {
-  padding-bottom: 5%;
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.welcomeText {
-  color: #494343;
-  padding-bottom: 10%;
-  font-size: 1.2rem;
-}
-
-/* Styles for Main Titles and Text */
 .title {
-  padding-top: 6%;
+  padding-top: 2%;
   padding-bottom: 3%;
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  padding: 5% 25%;
+  color: #ffffff;
+  text-align: center;
+  font: 400 61px/50px Paytone One, -apple-system, Roboto, Helvetica, sans-serif;
 }
 
-.titleList {
-  padding-top: 2%;
-  padding-bottom: 1%;
-  padding-left: 3%;
-  text-align: left;
-  font-size: 25px;
-  margin-bottom: 1rem;
+.splash {
+  height: auto;
+  width: 100%;
+  padding-top: 1%;
 }
 
-.subtitle {
-  text-align: left;
-  color: #454444;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+.contentWrapper {
+  gap: 0px;
+  display: flex;
 }
+
+.textColumn {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+  width: 38%;
+  margin-left: 0;
+}
+
+.textContent {
+  display: flex;
+  padding-top: 4px;
+  flex-grow: 1;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlightedText {
+  color: #fed36a;
+  text-shadow: 0 4px 4px rgba(253, 248, 248, 0.25);
+}
+
+.featureImage {
+  margin-bottom: 50%;
+  margin-top: -20%;
+  margin-left: 25%;
+}
+
+/* Styles for Authentication Container */
 
 /* Styles for Forms */
 .form {
   display: flex;
   flex-direction: column;
-  margin-left: 19%;
+  align-items: stretch;
   gap: 5px;
-  width: 65%;
+  width: 35%;
   margin-bottom: 6%;
   border-style: none;
 }
 
-.formA {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding-top: 2%;
-}
 
-/* Styles for Buttons */
-/* Styles for Task Action Buttons (Edit and Delete) */
-.editButton, .deleteButton {
-  background-color: rgba(196, 159, 226, 0.9); 
-  color: black;
-  padding: 4px 9px;
-  margin-right: 6px;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 17px;
-}
-
-.editButton:hover, .deleteButton:hover {
-  cursor:pointer;
-  background-color: rgba(174, 117, 221, 0.9); 
-}
-
-/* Styles for Authentication Buttons */
-.buttonA {
-  background-color: #000; 
-  color: #fff; 
-  padding: 9px 60px;
-  margin: 5px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.buttonA:hover {
-  background-color: #530587; 
-  transform: translateY(-2px);
-}
-
-.buttonSignOut {
-  background-color: black; 
-  color: #fff; 
-  padding: 8px 20px;
-  margin-left: 82%;
-  margin-top: 3%;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.buttonSignOut:hover {
-  background-color: #530587;
-  transform: translateY(-2px);
-}
-
-/* Styles for Default Buttons */
-.button {
-  background-color: #000; 
-  color: #fff; 
-  padding: 9px 14px;
-  margin: 5px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.button:hover {
-  background-color: #530587; 
-  transform: translateY(-2px);
-}
-
-/* Styles for Input Fields */
-.input {
-  width: 100%;
-  padding: 10px 10px 10px 30px; 
-  margin: 5px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.input,
-.textarea {
-  background-color: rgba(138, 66, 186, 0.101);
-  font-family: 'Arial', sans-serif; 
-  padding: 0.65rem;
-  border: 1px solid #000;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.input:focus, .textarea:focus {
-  border-color: #c397e6; 
-  box-shadow: 0 0 5px #ccb2e2; 
-  outline: none; 
-}
-
-.inputGroup {
-  position: relative;
-}
-
-.inputIcon {
-  position: absolute;
-  left: 85%;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #565252;
-}
-
-/* Styles for Task */
-.task {
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  padding: 6px;
-  text-align: left;
-  border-bottom: 1px solid #373636;
-  margin-bottom: 2%;
-  margin-top: 3%;
-  width: 70%;
-  border-radius: 8px;
-  background-color: #ccb2e2; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.3s ease;
-}
-
-.task:hover {
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); 
-  transform: translateY(-1px);
-}
-
-.taskList {
-  list-style: none;
-  padding-left: 4%;
-  margin: 0;
-  text-align: left;
-}
-
-.taskContent {
-  flex-grow: 1; 
-  text-align: left;
-  padding: 2%; 
-  font-size: 16px;
-}
-
-.taskButtons {
-  margin-left: auto; 
-  display: flex;
-  padding: 5px;
-  flex-direction: column; 
-  gap: 5px; 
-}
-
-.task h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.task p {
-  margin: 0.5rem 0 0;
-}
-
-.taskTitle {
-  font-size: 21px !important; 
-  margin: 0.5rem 0; 
-  text-align: left;
-}
 
 /* Animation */
 @keyframes fadeIn {

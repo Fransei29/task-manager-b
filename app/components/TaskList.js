@@ -1,19 +1,24 @@
 import React from 'react';
-import styles from '../app/page.module.css'; // Import CSS module
+import styles from '../home/home.module.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import Font Awesome component
 import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons'; 
 
 // TaskList component to display a list of tasks with edit and delete options
-const TaskList = ({ tasks, handleEdit, handleDelete }) => {
+const TaskList = ({ tasks = [], handleEdit, handleDelete }) => {
   return (
     <>
-    <h1 className={styles.titleList}>Tasks</h1>
+    <h1 className={styles.titleList}>Your Tasks</h1>
     <ul className={styles.taskList}>                            {/* List of tasks */}
       {tasks.map((task) => (
         <li key={task.id} className={styles.task}>
           <div className={styles.taskContent}>
-            <h2 className={styles.taskTitle}>{task.title}</h2> 
+            <h3 className={styles.taskTitle}>{task.title}</h3> 
             <p>{task.description}</p>
+          {task.dueDate && (
+              <p className={styles.dueDate}>
+                <>{new Date(task.dueDate).toLocaleDateString()}</> 
+              </p>
+            )}
           </div>
           <div className={styles.taskButtons}>                  {/* Buttons for editing and deleting tasks */}
             <button className={styles.editButton} onClick={() => handleEdit(task)}>

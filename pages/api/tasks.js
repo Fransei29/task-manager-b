@@ -12,12 +12,35 @@ export default async function handler(req, res) {
 
   switch (req.method) {
     case 'GET':
-      const tasks = await Task.findAll({ where: { UserId: user.id } });   // Fetch all tasks for the authenticated user
+      const { date } = req.query; // Obtener la fecha de la query (si existe)
+      let tasks;
+
+      if (date) {
+        // Si se proporciona una fecha, filtrar las tareas para ese día
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0); // Establecer el inicio del día
+
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999); // Establecer el final del día
+
+        tasks = await Task.findAll({
+          where: {
+            UserId: user.id,
+            dueDate: {
+              [Op.between]: [startOfDay, endOfDay], // Buscar tareas entre el inicio y el final del día
+            },
+          },
+        });
+      } else {
+        // Si no se proporciona una fecha, obtener todas las tareas
+        tasks = await Task.findAll({ where: { UserId: user.id } });
+      }
+
       return res.status(200).json(tasks);
 
     case 'POST':
-      const { title, description } = req.body;                            // Create a new task for the authenticated user
-      const newTask = await Task.create({ title, description, UserId: user.id });
+      const { title, description, dueDate } = req.body;                            // Create a new task for the authenticated user
+      const newTask = await Task.create({ title, description, UserId: user.id, dueDate });
       return res.status(201).json(newTask);
 
     case 'PUT': 

@@ -1,0 +1,32 @@
+.calendarContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px; /* Margen alrededor del calendario */
+    padding: 20px; /* Espacio interno */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+    background-color: rgba(254, 211, 106, 1);  /* Fondo claro */
+  }
+  
+  .datePicker {
+    border: 2px solid rgba(254, 211, 106, 1);  /* Borde azul */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px; /* Espacio interno */
+    font-size: 16px; /* Tamaño de fuente */
+    width: 200px; /* Ancho fijo */
+    transition: border-color 0.3s ease; /* Transición suave para el borde */
+  }
+  
+  /* Efecto al enfocar el selector de fecha */
+  .datePicker:focus {
+    outline: none; /* Quita el borde por defecto */
+    border-color: rgba(254, 211, 106, 1);  /* Cambia el color del borde al enfocar */
+    box-shadow: 0 0 5px rgba(254, 211, 106, 1); ; /* Sombra al enfocar */
+  }
+  
+  .react-datepicker__header {
+    background-color: #007bff; /* Fondo del encabezado */
+    color: white; /* Color del texto del encabezado */
+  }
+  
