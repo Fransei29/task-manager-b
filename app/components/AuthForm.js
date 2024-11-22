@@ -21,7 +21,7 @@ const AuthForm = ({ email, password, setEmail, setPassword, handleAuth, isRegist
                   required
                   className={styles.input}
                 />
-            </div>
+          </div>
         </div>
         <div className={styles.inputGroup}>
               <p>Password</p>
