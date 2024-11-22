@@ -7,7 +7,6 @@ import TaskList from '../components/TaskList';
 import AuthForm from '../components/AuthForm'; 
 import styles from './home.module.css'; 
 import Link from 'next/link';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowRightFromBracket, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -93,7 +92,7 @@ export default function Home() {
         // User is authenticated: Show task management components
         <div className={styles.containerHome}>
           <div className={styles.cA}>
-            <h2 className={styles.titleHome}>Dashboard</h2>
+            <h2 className={styles.titleHome}></h2>
             <TaskList tasks={tasks} handleEdit={setEditingTask} handleDelete={handleDelete} />
           </div>
           <div className={styles.cB}>

@@ -1,12 +1,13 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import Image from 'next/image';
-import styles from './Header.module.css'
+import { usePathname } from 'next/navigation'; // Cambia a usePathname en vez de useRouter
+import styles from './Header.module.css';
 
 const Header = () => {
   const { data: session, status } = useSession(); // Verifica si el usuario está autenticado
+  const pathname = usePathname(); // Obtén la ruta actual
 
   return (
     <header className={styles.header}>
@@ -18,14 +19,15 @@ const Header = () => {
       {status === 'authenticated' && (
         <nav className={styles.navbar}>
           <ul>
-          <li>
-              <Link href="/home">Home</Link>
+            <li>
+              <Link href="/home" className={pathname === '/home' ? styles.activeLink : ''}>
+                Home
+              </Link>
             </li>
             <li>
-              <Link href="/addTask">Add Task</Link>
-            </li>
-            <li>
-              <Link href="/logout">Logout</Link>
+              <Link href="/addTask" className={pathname === '/addTask' ? styles.activeLink : ''}>
+                Add New Task
+              </Link>
             </li>
           </ul>
         </nav>
