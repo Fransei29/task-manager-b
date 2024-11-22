@@ -86,10 +86,12 @@ export default function Home() {
     setIsRegistering(!isRegistering);
   };
 
-  const handleSignOut = () => {
-    signOut({
-      callbackUrl: 'https://tu-dominio-o-url.com', // Coloca la URL que quieres como destino después del cierre de sesión
-    });
+  const handleSignOut = async () => {
+    // Llamamos a signOut y esperamos a que termine el cierre de sesión
+    await signOut({ redirect: false });
+
+    // Luego redirigimos al usuario a la página de inicio
+    router.push('/home'); // Redirige a la página de inicio
   };
 
   return (
