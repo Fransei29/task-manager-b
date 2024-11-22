@@ -86,6 +86,12 @@ export default function Home() {
     setIsRegistering(!isRegistering);
   };
 
+  const handleSignOut = () => {
+    signOut({
+      callbackUrl: 'https://tu-dominio-o-url.com', // Coloca la URL que quieres como destino después del cierre de sesión
+    });
+  };
+
   return (
     <>
       {status === 'authenticated' ? (
@@ -99,7 +105,7 @@ export default function Home() {
             <Link href='/addTask'>
             <button className={styles.buttonOptions}><FontAwesomeIcon icon={faPlus}/></button>
             </Link>
-            <button className={styles.buttonOptions} onClick={() => signOut()}><FontAwesomeIcon icon={faArrowRightFromBracket}/></button>
+            <button className={styles.buttonOptions} onClick={handleSignOut}><FontAwesomeIcon icon={faArrowRightFromBracket}/></button>
           </div>
         </div>
       ) : (
