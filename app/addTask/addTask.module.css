@@ -4,7 +4,7 @@
 }
 
 .titleAdd {
-   font-family:  Arial, sans-serif;
+    font-family:  Arial, sans-serif;
     font-size: 35px;
     color: #e8e5e5;
     text-align: center;
@@ -26,6 +26,7 @@
   .input,
   .textarea {
     background-color: rgba(69, 90, 100, 1);
+    font-family:  Arial, sans-serif;
     color: rgba(255, 255, 255, 1);
     padding: 11px 55px 11px 55px; 
     border-style: none;
