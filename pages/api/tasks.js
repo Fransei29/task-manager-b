@@ -11,6 +11,7 @@ export default async function handler(req, res) {
   switch (req.method) {
     case 'GET':
       try {
+        
         const response = await axios.get(`https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Tasks`, {
           headers: { Authorization: `Bearer ${token}` },
         });

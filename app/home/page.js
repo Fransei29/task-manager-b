@@ -23,7 +23,7 @@ export default function Home() {
 
   useEffect(() => {                                   // Fetch tasks when the user is authenticated
     if (status === 'authenticated') {
-      axios.get('/api/tasks', {
+      axios.get('https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Tasks', {
         headers: {
           Authorization: `Bearer ${session?.accessToken}`
         }
