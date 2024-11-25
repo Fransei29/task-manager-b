@@ -1,26 +1,26 @@
-import { User } from '../../../lib/models';
-import bcrypt from 'bcryptjs';
+import axios from 'axios';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
+  if (req.method === 'POST') {
+    const { email, password } = req.body;
 
-  const { email, password } = req.body;
-
-  try {
-    const existingUser = await User.findOne({ where: { email } });          // Check if the user already exists
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 10);                    // Hash the user's password
+    try {
+      const response = await axios.post(
+        'https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Users',
+        { email, password }
+      );
 
-    const newUser = await User.create({ email, password: hashedPassword });  // Create a new user in the database
-
-    res.status(201).json({ message: 'User registered successfully', user: newUser });
-  } catch (error) {
-    console.error('Error durante el registro:', error); 
-    res.status(500).json({ message: 'Internal Server Error' });
+      return res.status(201).json(response.data);
+    } catch (error) {
+      console.error('Error during registration:', error);
+      return res.status(500).json({ message: 'Failed to register user' });
+    }
   }
+
+  res.setHeader('Allow', ['POST']);
+  return res.status(405).end(`Method ${req.method} Not Allowed`);
 }

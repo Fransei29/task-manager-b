@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { User } from '../../../lib/models';
-import bcrypt from 'bcryptjs';
+import axios from 'axios';
 
 export default NextAuth({
   providers: [
@@ -11,31 +10,42 @@ export default NextAuth({
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {                                            // Find the user in the database
-        const user = await User.findOne({ where: { email: credentials.email } });
-        
-        if (user && bcrypt.compareSync(credentials.password, user.password)) {  // If user exists, compare the provided password with the stored hash
-          return user;                                                          // Return the authenticated user
+      async authorize(credentials) {
+        try {
+          // Hacer un request a MockAPI para verificar las credenciales
+          const response = await axios.get('https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Users', {
+            params: {
+              email: credentials.email,
+              password: credentials.password,
+            },
+          });
+      
+          // Verificar si se encuentra un usuario que coincida con las credenciales
+          if (response.data && response.data.length > 0) {
+            return response.data[0]; // Retorna el primer usuario que coincida
+          }
+          return null; // Si no se encuentra, retorna null
+        } catch (error) {
+          console.error('Error de autenticación:', error);
+          return null;
         }
-
-        return null;                                                             // Return null if authentication fails
-      },
-    }),
+      }
+}),
   ],
-  secret: process.env.NEXTAUTH_SECRET,          // Use NEXTAUTH_SECRET for JWT signing
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: 'jwt',                            // Use JSON Web Tokens (JWT) for session handling
+    strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;                     // Add user ID to the JWT token
+        token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id;              // Attach user ID to the session
+        session.user.id = token.id;
       }
       return session;
     },
