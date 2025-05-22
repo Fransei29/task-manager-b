@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <h1 className={styles.logoText}>
-        Task<span style={{ color: "#fed36a" }}>Fra</span>
+        Task<span style={{ color: "#e4a400" }}>Fra</span>
       </h1>
       
       {/* Solo muestra la barra de navegación si el usuario está autenticado */}

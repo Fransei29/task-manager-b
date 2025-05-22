@@ -2,6 +2,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary:#212832;
+  --secondary:#e4a400;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,7 +21,6 @@ body {
 }
 
 body {
-  background: #212832;
   font-family: Paytone One;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
