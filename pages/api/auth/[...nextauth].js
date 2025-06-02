@@ -12,42 +12,59 @@ export default NextAuth({
       },
       async authorize(credentials) {
         try {
-          // Hacer un request a MockAPI para verificar las credenciales
           const response = await axios.get('https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Users', {
             params: {
               email: credentials.email,
               password: credentials.password,
             },
           });
-      
-          // Verificar si se encuentra un usuario que coincida con las credenciales
+
           if (response.data && response.data.length > 0) {
-            return response.data[0]; // Retorna el primer usuario que coincida
+            const user = response.data[0];
+            console.log('🔐 authorize() user:', user);
+
+            return {
+              id: user.UserId,                // 👈 ESTE ID tiene que estar
+              email: user.email,
+              name: user.name || null,
+            };
           }
-          return null; // Si no se encuentra, retorna null
+
+          return null;
         } catch (error) {
-          console.error('Error de autenticación:', error);
+          console.error('❌ Error en authorize:', error);
           return null;
         }
       }
-}),
+    })
   ],
+
   secret: process.env.NEXTAUTH_SECRET,
+
   session: {
     strategy: 'jwt',
   },
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        console.log('✅ JWT callback - user:', user);
+        token.id = user.id;              // 👈 ESTE ES EL CLAVE QUE FALTA
+        token.email = user.email;
+        token.name = user.name || null;
       }
+
+      console.log('🧾 JWT token final:', token);
       return token;
     },
+
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-      }
+      console.log('🧠 SESSION callback - token:', token);
+      session.user.id = token.id;       // 👈 Esto depende de que token.id exista
+      session.user.email = token.email;
+      session.user.name = token.name;
+      console.log('📦 SESSION final:', session);
       return session;
-    },
-  },
+    }
+  }
 });

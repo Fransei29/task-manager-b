@@ -27,9 +27,16 @@ const TaskList = ({ tasks = [], handleEdit, handleDelete }) => {
             <button className={styles.editButton} onClick={() => handleEdit(task)}>
               <FontAwesomeIcon className={styles.iconA} icon={faEdit} />
             </button>
-            <button className={styles.deleteButton} onClick={() => handleDelete(task.id)}>
+            <button 
+              className={styles.deleteButton} 
+              onClick={() => {
+                console.log('Task en TaskList:', task);
+                handleDelete(task.id);
+              }}
+            >
               <FontAwesomeIcon className={styles.iconA} icon={faXmark} />
             </button>
+
           </div>
         </li>
       ))}

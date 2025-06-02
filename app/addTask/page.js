@@ -1,51 +1,66 @@
 'use client';
 
-import React, { useState } from 'react';
-import TaskForm from '../components/TaskForm'; // Ajusta la ruta si es necesario
-import { useSession } from 'next-auth/react'; // Para la autenticación
-import axios from 'axios';                    // Para las peticiones HTTP
+import React, { useState, useEffect } from 'react';
+import TaskForm from '../components/TaskForm';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
 import styles from './addTask.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const AddTaskPage = () => {
-  const { data: session, status } = useSession(); // Obtiene la sesión del usuario
+  const { data: session, status } = useSession();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [editingTask, setEditingTask] = useState(null); // Estado para edición de tareas
-  const [tasks, setTasks] = useState([]);               // Lista de tareas
-  const [dueDate, setDueDate] = useState(new Date());  // Inicializa dueDate como objeto Date
+  const [editingTask, setEditingTask] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const [dueDate, setDueDate] = useState(new Date());
 
-  // Manejar la creación o edición de la tarea
+  useEffect(() => {
+    const storedTask = localStorage.getItem('editingTask');
+    if (storedTask) {
+      const task = JSON.parse(storedTask);
+      setTitle(task.title);
+      setDescription(task.description);
+      setEditingTask(task);
+      setDueDate(new Date(task.dueDate || new Date()));
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (status === 'authenticated') {                 // Verifica si el usuario está autenticado
+    if (status === 'authenticated') {
       try {
-        if (editingTask) {                             // Actualiza tarea existente
+        if (editingTask) {
           const response = await axios.put('/api/tasks', {
             id: editingTask.id,
             newTitle: title,
             newDescription: description,
-            dueDate, // Incluye la fecha de vencimiento al actualizar
+            dueDate,
           }, {
             headers: {
               Authorization: `Bearer ${session?.accessToken}`
             }
           });
           setTasks(tasks.map(task => task.id === editingTask.id ? response.data : task));
-          setEditingTask(null);                       // Limpia el estado de edición
-        } else {                                      // Crea una nueva tarea
-          const response = await axios.post('/api/tasks', { title, description, dueDate }, {
+          setEditingTask(null);
+          localStorage.removeItem('editingTask'); // Limpia el localStorage
+        } else {
+          const response = await axios.post('/api/tasks', {
+            title,
+            description,
+            dueDate,
+          }, {
             headers: {
               Authorization: `Bearer ${session?.accessToken}`
             }
           });
-          setTasks([...tasks, response.data]);         // Agrega nueva tarea a la lista
+          setTasks([...tasks, response.data]);
         }
 
-        // Limpia los campos de entrada
-        setTitle('');                                  
+        setTitle('');
         setDescription('');
-        setDueDate(new Date()); // Reinicia la fecha de vencimiento
+        setDueDate(new Date());
       } catch (error) {
         console.error('Error creando o actualizando tarea:', error);
         alert('Ocurrió un error al crear o actualizar la tarea.');
@@ -57,7 +72,9 @@ const AddTaskPage = () => {
 
   return (
     <div className={styles.containerAdd}>
-      <h1 className={styles.titleAdd}>Add New Task</h1>
+      <h1 className={styles.titleAdd}>
+        {editingTask ? 'Edit Task' : 'Add New Task'}
+      </h1>
       <TaskForm
         title={title}
         setTitle={setTitle}
@@ -65,8 +82,8 @@ const AddTaskPage = () => {
         setDescription={setDescription}
         handleSubmit={handleSubmit}
         editingTask={editingTask}
-        dueDate={dueDate} // Pasar el estado de la fecha al componente
-        setDueDate={setDueDate} // Pasar el setter para la fecha
+        dueDate={dueDate}
+        setDueDate={setDueDate}
       />
     </div>
   );

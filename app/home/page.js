@@ -1,114 +1,180 @@
 "use client";
 
-import { useSession, signIn, signOut } from 'next-auth/react'; // Import NextAuth for session management
-import { useState, useEffect } from 'react';                   // Import React hooks
-import axios from 'axios';                                     // Import Axios for HTTP requests
-import TaskList from '../components/TaskList'; 
-import AuthForm from '../components/AuthForm'; 
-import styles from './home.module.css'; 
-import Link from 'next/link';
-import { faArrowRightFromBracket, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import TaskList from "../components/TaskList";
+import AuthForm from "../components/AuthForm";
+import styles from "./home.module.css";
+import Link from "next/link";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/navigation";
 
-
-// Home component for managing tasks and user authentication
 export default function Home() {
-  const { data: session, status } = useSession();            // Manage session state
-  const [tasks, setTasks] = useState([]);                    // State to store tasks
-  const [email, setEmail] = useState('');                    // State to manage email input
-  const [password, setPassword] = useState('');              // State to manage password input
-  const [isRegistering, setIsRegistering] = useState(false); // State to toggle between register and sign-in modes
-  const [editingTask, setEditingTask] = useState(null);      // State to manage the task currently being edited
+  const { data: session, status } = useSession();
+  const [tasks, setTasks] = useState([]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+  const router = useRouter();
 
-
-  useEffect(() => {                                   // Fetch tasks when the user is authenticated
-    if (status === 'authenticated') {
-      axios.get('https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Tasks', {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`
-        }
-      })
-        .then((response) => setTasks(response.data))
-        .catch((error) => console.error('Error fetching tasks:', error));
+  useEffect(() => {
+    if (status === "authenticated") {
+      axios
+        .get("/api/tasks")
+        .then((response) => {
+          console.log("Tasks from API:", response.data);
+          setTasks(response.data);
+        })
+        .catch((error) => console.error("Error fetching tasks:", error));
+    } else {
+      setTasks([]); // limpiar tareas si no está autenticado
     }
-  }, [status, session]);
-
-  const handleAuth = async (e) => {                  // Handle user authentication (register or sign-in) 
+  }, [status]);
+  
+  const handleAuth = async (e) => {
     e.preventDefault();
     if (isRegistering) {
       try {
-        await axios.post('/api/auth/register', { email, password });
-        alert('User registered successfully! Now you can sign in.');
+        await axios.post("/api/auth/register", { email, password });
+        alert("User registered successfully! Now you can sign in.");
 
-        signIn('credentials', { email, password, redirect: false }).then(({ error }) => {
-          if (error) {
-            alert('Sign in failed. Please check your credentials.');
+        signIn("credentials", { email, password, redirect: false }).then(
+          ({ error }) => {
+            if (error) {
+              alert("Sign in failed. Please check your credentials.");
+            }
           }
-        });
+        );
 
         setIsRegistering(false);
       } catch (error) {
-        alert('Registration failed: ' + error.response.data.message);
+        alert("Registration failed: " + error.response.data.message);
       }
     } else {
       try {
-        const result = await signIn('credentials', { email, password, redirect: false });
+        const result = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
 
         if (result.error) {
-          alert('Sign in failed. Please check your credentials.');
+          alert("Sign in failed. Please check your credentials.");
         }
       } catch (error) {
-        console.error('Error signing in:', error);
-        alert('Error signing in.');
+        console.error("Error signing in:", error);
+        alert("Error signing in.");
       }
     }
   };
 
-
-  const handleDelete = async (taskId) => {
-    try {
-      await axios.delete(`https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Tasks/${taskId}`);
-      setTasks(tasks.filter(task => task.id !== taskId));
-    } catch (error) {
-      console.error('Error deleting task:', error);
-      alert('An error occurred while deleting the task.');
-    }
+  const handleEdit = (task) => {
+    localStorage.setItem('editingTask', JSON.stringify(task));
+    router.push('/addTask');
   };
   
+  const handleDelete = async (taskId) => {
+    if (!taskId) {
+      alert("No task ID provided.");
+      return;
+    }
 
-  const toggleAuthMode = () => {             // Toggle between registration and sign-in modes
+    try {
+      await axios.delete(`/api/tasks?taskId=${taskId}`);
+      setTasks(tasks.filter((task) => task.id !== taskId));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      alert("Error deleting task: " + (error.response?.data || error.message));
+    }
+  };
+
+  const toggleAuthMode = () => {
     setIsRegistering(!isRegistering);
   };
 
   const handleSignOut = async () => {
-    // Llamamos a signOut y esperamos a que termine el cierre de sesión
     await signOut({ redirect: false });
+    router.push("/home");
+  };
 
-    // Luego redirigimos al usuario a la página de inicio
-    router.push('/home'); // Redirige a la página de inicio
+  const handleSave = async () => {
+    if (!editingTask) return;
+
+    try {
+      const response = await axios.put(
+        `https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Tasks/${editingTask.id}`,
+        editingTask,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
+        }
+      );
+
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === editingTask.id ? response.data : task
+        )
+      );
+      setEditingTask(null);
+    } catch (error) {
+      console.error("Error updating task:", error);
+      alert("Error updating task. Try again.");
+    }
   };
 
   return (
     <>
-      {status === 'authenticated' ? (
-        // User is authenticated: Show task management components
+      {status === "authenticated" ? (
         <div className={styles.containerHome}>
           <div className={styles.cA}>
-            <h2 className={styles.titleHome}>
-              Dashboard
-            </h2>
-            <TaskList tasks={tasks} handleEdit={setEditingTask} handleDelete={handleDelete} />
+            <h2 className={styles.titleHome}>Dashboard</h2>
+
+            <TaskList
+              tasks={tasks}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+
+            {editingTask && (
+              <div className={styles.editForm}>
+                <h3>Edit Task</h3>
+                <input
+                  type="text"
+                  value={editingTask.title}
+                  onChange={(e) =>
+                    setEditingTask({ ...editingTask, title: e.target.value })
+                  }
+                  placeholder="Title"
+                />
+                <textarea
+                  value={editingTask.description}
+                  onChange={(e) =>
+                    setEditingTask({
+                      ...editingTask,
+                      description: e.target.value,
+                    })
+                  }
+                  placeholder="Description"
+                />
+                <button onClick={handleSave}>Save</button>
+                <button onClick={() => setEditingTask(null)}>Cancel</button>
+              </div>
+            )}
           </div>
           <div className={styles.cB}>
-            <Link href='/addTask'>
-            <button className={styles.buttonOptions}><FontAwesomeIcon className={styles.icon} icon={faPlus}/>
-            Add New Task
-            </button>
+            <Link href="/addTask">
+              <button className={styles.buttonOptions}>
+                <FontAwesomeIcon className={styles.icon} icon={faPlus} />
+                Add New Task
+              </button>
             </Link>
           </div>
         </div>
       ) : (
-        // User is not authenticated: Show authenticatform outside of containerHome
         <div className={styles.authContainer}>
           <AuthForm
             email={email}
