@@ -65,22 +65,16 @@ export default function Home() {
   };
 
 
-  const handleDelete = async (taskId) => {       // Handle task deletion
-    if (status === 'authenticated') {
-      try {
-        await axios.delete('/api/tasks', {
-          headers: {
-            Authorization: `Bearer ${session?.accessToken}`
-          },
-          data: { taskId }
-        });
-        setTasks(tasks.filter(task => task.id !== taskId)); // Remove deleted task from list
-      } catch (error) {
-        console.error('Error deleting task:', error);
-        alert('An error occurred while deleting the task.');
-      }
+  const handleDelete = async (taskId) => {
+    try {
+      await axios.delete(`https://67446b1cb4e2e04abea22276.mockapi.io/api/v1/Tasks/${taskId}`);
+      setTasks(tasks.filter(task => task.id !== taskId));
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      alert('An error occurred while deleting the task.');
     }
   };
+  
 
   const toggleAuthMode = () => {             // Toggle between registration and sign-in modes
     setIsRegistering(!isRegistering);
