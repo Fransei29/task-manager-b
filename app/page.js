@@ -20,7 +20,7 @@ function Welcome() {
           Task<span className={styles.highlight}>Fra</span> <br />
         </h1>
         <p className={styles.subtitleA}>
-          Manage your tasks 
+          Take full control of your daily tasks with ease.
         </p>
         <p className={styles.subtitle}>
           Simple. Fast. Reliable.

@@ -3,11 +3,21 @@
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; // Cambia a usePathname en vez de useRouter
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Header.module.css';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const { data: session, status } = useSession(); // Verifica si el usuario está autenticado
   const pathname = usePathname(); // Obtén la ruta actual
+
+  const handleSignOut = async () => {
+    // Llamamos a signOut y esperamos a que termine el cierre de sesión
+    await signOut({ redirect: false });
+
+    // Luego redirigimos al usuario a la página de inicio
+    router.push('/home'); // Redirige a la página de inicio
+  };
 
   return (
     <header className={styles.header}>
@@ -28,6 +38,11 @@ const Header = () => {
               <Link href="/addTask" className={pathname === '/addTask' ? styles.activeLink : ''}>
                 Add New Task
               </Link>
+              </li>
+              <li>
+               <button className={styles.buttonOptions} onClick={handleSignOut}><FontAwesomeIcon className={styles.icon} icon={faArrowRightFromBracket}/>
+                Log Out
+               </button>
             </li>
           </ul>
         </nav>

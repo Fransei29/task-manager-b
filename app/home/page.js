@@ -100,18 +100,21 @@ export default function Home() {
         // User is authenticated: Show task management components
         <div className={styles.containerHome}>
           <div className={styles.cA}>
-            <h2 className={styles.titleHome}></h2>
+            <h2 className={styles.titleHome}>
+              Dashboard
+            </h2>
             <TaskList tasks={tasks} handleEdit={setEditingTask} handleDelete={handleDelete} />
           </div>
           <div className={styles.cB}>
             <Link href='/addTask'>
-            <button className={styles.buttonOptions}><FontAwesomeIcon icon={faPlus}/></button>
+            <button className={styles.buttonOptions}><FontAwesomeIcon className={styles.icon} icon={faPlus}/>
+            Add New Task
+            </button>
             </Link>
-            <button className={styles.buttonOptions} onClick={handleSignOut}><FontAwesomeIcon icon={faArrowRightFromBracket}/></button>
           </div>
         </div>
       ) : (
-        // User is not authenticated: Show authentication form outside of containerHome
+        // User is not authenticated: Show authenticatform outside of containerHome
         <div className={styles.authContainer}>
           <AuthForm
             email={email}

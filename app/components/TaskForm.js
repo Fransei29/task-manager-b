@@ -31,7 +31,7 @@ const TaskForm = ({ title, setTitle, description, setDescription, handleSubmit, 
         className={styles.datePicker}
         dateFormat="yyyy-MM-dd" // Formato de fecha que puedes ajustar
       />
-      <button type="submit">Create</button>
+      <button className={styles.buttonOptions} type="submit">Create</button>
     </form>
   );
 };

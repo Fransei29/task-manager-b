@@ -4,6 +4,8 @@
   --foreground: #171717;
   --primary:#212832;
   --secondary:#e4a400;
+  --text-color:rgba(75,75,75);
+  --border:rgba(228, 0, 0, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {

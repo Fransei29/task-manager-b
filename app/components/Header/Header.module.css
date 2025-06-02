@@ -2,9 +2,9 @@
 .header { 
   display: flex;
   flex-direction: row;
-  justify-content: center; 
+  justify-content: space-around; 
   flex-wrap: wrap;
-  height: 70px ;
+  height: 80px ;
   align-items: center;
   position: sticky;
   top: 0;
@@ -15,9 +15,9 @@
 }
 
 .logoText {
-  font-size: 2.5rem;
+  font-size: 2rem;
   padding: 1rem;
-  text-shadow: 0 4px 4px rgba(253, 248, 248, 0.25);
+  text-shadow: 0 4px 4px rgba(131, 131, 131, 0.25);
   color: var(--primary);
 }
 
@@ -31,6 +31,7 @@
 .navbar {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   
 }
 
@@ -40,9 +41,10 @@
   padding: 0;
   margin: 0;
   display: flex;
-  gap: 20px; 
+  gap: 40px; 
   justify-content: space-evenly;
-  align-items: center
+  align-items: center;
+  margin-left: 5rem;
 }
 
 .navbar li {
@@ -51,17 +53,41 @@
 
 .navbar a {
   text-decoration: none;
-  font-size: 21px;
-  color: white;
+  font-size: 1.2rem;
+  color: rgb(75, 75, 75);
   transition: color 0.3s ease-in-out,  transform 0.3s ease-in-out;;
 }
 
 .navbar a:hover,
 .activeLink {
-color: #fed36a !important;
+color: #dd9f02 !important;
 }
 
 .logoImage {
   margin-left: 6%;
   margin-right: 6%;
+}
+
+.buttonOptions {
+  background-color: transparent; 
+  border: 1px solid var(--secondary) ;
+  color: rgb(77, 77, 77); 
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px 25px;
+  margin: 1rem;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 400;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.buttonOptions:hover {
+  background-color:  rgb(219, 195, 135); 
+  transform: translateY(0);
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 10px;
 }

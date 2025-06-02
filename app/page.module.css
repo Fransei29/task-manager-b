@@ -25,30 +25,33 @@
 }
 
 .title {
-  font-size: 5.5rem;
+  font-size: 4rem;
   font-weight: 500;
   color: var(--primary);
   line-height: 1.2;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   text-align: left;
 }
 
 .highlight {
-  font-size: 5.5rem;
+  font-size: 4rem;
   color: var(--secondary);
   font-weight: 500;
 }
 
 .subtitleA {
-  font-size: 3rem;
-  color: var(--primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #aaa;
   margin-bottom: 2rem;
   text-align: left;
 }
 
 .subtitle {
-  font-size: 1.6rem;
-  color: #707070;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #aaa;
   margin-bottom: 2rem;
   text-align: left;
 }
@@ -57,9 +60,9 @@
   background-color: var(--secondary);
   color: var(--primary);
   border: none;
-  padding: 1.2rem 3.5rem;
-  font-size: 1.5rem;
-  border-radius: 8px;
+  padding: 1rem 4rem;
+  font-size: 1.2rem;
+  border-radius: 16px;
   cursor: pointer;
   font-weight: 400;
   transition: background-color 0.3s ease;
@@ -67,7 +70,9 @@
 }
 
 .startButton:hover {
-  background-color: #c5a504;
+  background-color: #f8bb43;
+  color: var(--primary);
+  translate: (0);
 }
 
 .imageColumn {
