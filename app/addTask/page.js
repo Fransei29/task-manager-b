@@ -15,6 +15,7 @@ const AddTaskPage = () => {
   const [editingTask, setEditingTask] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [dueDate, setDueDate] = useState(new Date());
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     const storedTask = localStorage.getItem('editingTask');
@@ -44,7 +45,7 @@ const AddTaskPage = () => {
           });
           setTasks(tasks.map(task => task.id === editingTask.id ? response.data : task));
           setEditingTask(null);
-          localStorage.removeItem('editingTask'); // Limpia el localStorage
+          localStorage.removeItem('editingTask');
         } else {
           const response = await axios.post('/api/tasks', {
             title,
@@ -61,6 +62,8 @@ const AddTaskPage = () => {
         setTitle('');
         setDescription('');
         setDueDate(new Date());
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 2500);
       } catch (error) {
         console.error('Error creando o actualizando tarea:', error);
         alert('Ocurrió un error al crear o actualizar la tarea.');
@@ -71,21 +74,41 @@ const AddTaskPage = () => {
   };
 
   return (
-    <div className={styles.containerAdd}>
-      <h1 className={styles.titleAdd}>
-        {editingTask ? 'Edit Task' : 'Add New Task'}
-      </h1>
-      <TaskForm
-        title={title}
-        setTitle={setTitle}
-        description={description}
-        setDescription={setDescription}
-        handleSubmit={handleSubmit}
-        editingTask={editingTask}
-        dueDate={dueDate}
-        setDueDate={setDueDate}
-      />
-    </div>
+    <>
+      {showSuccess && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: '#f9c84d99',
+          color: '#4b4b4b',
+          padding: '30px 40px',
+          borderRadius: '0 0 16px 16px',
+          boxShadow: '0px 2px 6px rgba(0,0,0,0.2)',
+          zIndex: 9999,
+          transition: 'top 0.3s ease-in-out'
+        }}>
+          Task created successfully!
+        </div>
+      )}
+
+      <div className={styles.containerAdd}>
+        <h1 className={styles.titleAdd}>
+          {editingTask ? 'Edit Task' : 'Add New Task'}
+        </h1>
+        <TaskForm
+          title={title}
+          setTitle={setTitle}
+          description={description}
+          setDescription={setDescription}
+          handleSubmit={handleSubmit}
+          editingTask={editingTask}
+          dueDate={dueDate}
+          setDueDate={setDueDate}
+        />
+      </div>
+    </>
   );
 };
 
